@@ -11,8 +11,11 @@ def register_handlers(dp):
 
 @router.message(CommandStart())
 async def start_handler(message: Message):
-    await message.answer("سلام 👋\nبه ربات فروش جیمیل *hamidmir2027* خوش اومدی!\n\nبرای دیدن جیمیل‌های موجود دکمه زیر رو بزن:", 
-                         reply_markup=main_menu(), parse_mode="Markdown")
+    await message.answer(
+        "سلام 👋\nبه ربات فروش جیمیل *hamidmir2027* خوش اومدی!\n\nبرای دیدن جیمیل‌های موجود دکمه زیر رو بزن:",
+        reply_markup=main_menu(),
+        parse_mode="Markdown"
+    )
 
 @router.callback_query(F.data == "view_gmails")
 async def view_gmails_handler(callback: CallbackQuery):
@@ -20,7 +23,7 @@ async def view_gmails_handler(callback: CallbackQuery):
     if not gmails:
         await callback.message.edit_text("❌ هیچ جیمیلی موجود نیست.")
         return
-    
+
     text = "📋 لیست جیمیل‌های موجود:\n\n"
     for g in gmails:
         text += f"📧 {g['email']}\n💰 قیمت: {g['price']} تومان\n\n"
@@ -36,7 +39,7 @@ async def fake_buy_handler(callback: CallbackQuery):
     if not gmail:
         await callback.message.answer("❌ این جیمیل دیگر موجود نیست.")
         return
-    
+
     remove_gmail(email)
     await callback.message.answer(
         f"✅ پرداخت موفق!\n\n📧 *{gmail['email']}*\n🔑 *{gmail['password']}*",
